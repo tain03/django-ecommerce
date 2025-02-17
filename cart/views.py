@@ -18,7 +18,11 @@ def add_to_cart(request, book_id):
 @login_required
 def view_cart(request):
     cart_items = Cart.objects.filter(customer=request.user)
-    return render(request, 'cart/cart.html', {'cart_items': cart_items})
+    cart_total = sum(item.get_total() for item in cart_items)
+    return render(request, 'cart/cart.html', {
+        'cart_items': cart_items,
+        'cart_total': cart_total
+    })
 
 @login_required
 def update_quantity(request, cart_item_id):
