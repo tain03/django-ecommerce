@@ -9,20 +9,40 @@
         <thead>
             <tr>
                 <th>Book</th>
-                <th>Quantity</th>
                 <th>Price</th>
+                <th>Quantity</th>
                 <th>Total</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for item in cart_items %}
             <tr>
                 <td>{{ item.book.title }}</td>
-                <td>{{ item.quantity }}</td>
                 <td>${{ item.book.price }}</td>
+                <td>
+                    <form method="post" action="{% url 'cart:update_quantity' item.id %}" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" 
+                               min="1" class="form-control" style="width: 80px">
+                        <button type="submit" class="btn btn-sm btn-primary ms-2">Update</button>
+                    </form>
+                </td>
                 <td>${{ item.get_total }}</td>
+                <td>
+                    <form method="post" action="{% url 'cart:remove_from_cart' item.id %}" 
+                          onsubmit="return confirm('Are you sure you want to remove this item?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total Cart Value:</strong></td>
+                <td><strong>${{ cart_total }}</strong></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
 {% else %}

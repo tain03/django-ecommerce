@@ -13,3 +13,10 @@ class Cart(models.Model):
     
     def get_total(self):
         return self.quantity * self.book.price
+    
+    def cart_total(self):
+        cart_items = Cart.objects.filter(customer=self.customer)
+        total = 0
+        for item in cart_items:
+            total += item.get_total()
+        return total
