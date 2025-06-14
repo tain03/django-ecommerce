@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'customer',
     'book',
     'cart',
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+
+    'mysql': {
+        # replace below information with your information
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_db',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
